@@ -13,7 +13,7 @@ function TipCalc(options) {
 
 TipCalc.prototype._calculate = function(){
     let $result = document.querySelector('[data-component="result"]')
-    $result.value = (this.$bill.value * this.$percent.value * 0.01 / this.$split.value).toFixed(2) || 1;
+    $result.value = (this.$bill.value * this.$percent.value * 0.01 / this.$split.value || 1).toFixed(2);
 }
 
 TipCalc.prototype._splitChange = function(){
