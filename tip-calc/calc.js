@@ -20,6 +20,8 @@ TipCalc.prototype._calculate = function(){
     let $resultPerson = document.querySelector('[data-component="resultPerson"]')
     let $totalPerson = document.querySelector('[data-component="totalPerson"]')
 
+    this.$bill.value = Math.abs(this.$bill.value)
+    this.$percent.value = Math.abs(this.$percent.value)
 
     $result.value = ( this.$bill.value * this.$percent.value * 0.01  ).toFixed(2)
     $total.value = ( parseFloat(this.$bill.value) + parseFloat($result.value) ).toFixed(2)
