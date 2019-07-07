@@ -7,7 +7,7 @@ function TipCalc(options) {
 
     this.$split.addEventListener('change', this._splitChange.bind(this))
     this.$el.addEventListener('change', this._calculate.bind(this))
-    document.getElementById('eachLabel').style.display = 'none;'
+    document.getElementById('eachSection').style.display = 'none;'
     this._calculate()
 }
 
