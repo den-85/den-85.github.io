@@ -12,17 +12,30 @@ function TipCalc(options) {
 }
 
 TipCalc.prototype._calculate = function(){
+
     let $result = document.querySelector('[data-component="result"]')
-    $result.value = (this.$bill.value * this.$percent.value * 0.01 / this.$split.value || 1).toFixed(2);
+    let $total = document.querySelector('[data-component="total"]')
+
+    let $resultPerson = document.querySelector('[data-component="resultPerson"]')
+    let $totalPerson = document.querySelector('[data-component="totalPerson"]')
+
+
+    $result.value = ( this.$bill.value * this.$percent.value * 0.01  ).toFixed(2)
+    $total.value = ( parseFloat(this.$bill.value) + parseFloat($result.value) ).toFixed(2)
+
+    if ( Number(this.$split.value) > 1 ) {
+        $resultPerson.value = ( parseFloat($result.value) / parseFloat(this.$split.value) ).toFixed(2)
+        $totalPerson.value = ( (parseFloat(this.$bill.value) + parseFloat($result.value) ) / parseFloat(this.$split.value) ).toFixed(2)
+    }
 }
 
 TipCalc.prototype._splitChange = function(){
-    document.getElementById('rangeValue').innerText = this.$split.value;
+    document.getElementById('rangeValue').innerText = this.$split.value
 
     if(this.$split.value > 1) {
-        document.getElementById('eachLabel').style.display = 'block'
+        document.getElementById('eachSection').style.display = 'block'
     }else{
-        document.getElementById('eachLabel').style.display = 'none'
+        document.getElementById('eachSection').style.display = 'none'
     }
 }
 
