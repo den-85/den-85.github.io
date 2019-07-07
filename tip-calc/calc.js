@@ -5,9 +5,10 @@ function TipCalc(options) {
     this.$percent = this.$el.querySelector('[data-component="percent"]')
     this.$split = this.$el.querySelector('[data-component="split"]')
 
+    this.$split.value = 1
     this.$split.addEventListener('change', this._splitChange.bind(this))
     this.$el.addEventListener('change', this._calculate.bind(this))
-    document.getElementById('eachSection').style.display = 'none;'
+    
     this._calculate()
 }
 
