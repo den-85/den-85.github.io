@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tip Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script defer src="calc.js"></script>
+    <style type="text/css">
+        body {
+            background-color:#eee;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="container">
+<div class="row justify-content-md-center mt-3">
+    <div data-component="tip-calc" class="card col col-lg-6">
+        <div class="card-body">
+            <form data-selector="form">
+                    <label for="bill">Your bill</label>
+                    <div class="input-group flex-nowrap">
+                        <div class="input-group-prepend"><label class="input-group-text" for="bill">$</label></div>
+                        <input type="number" class="form-control" id="bill" autocomplete="off" placeholder="your bill amount" value="100" step="0.01" data-component="bill">
+                    </div>
+
+                    <label class="mt-3" for="percent">Tip</label>
+                    <div class="input-group flex-nowrap">
+                        <div class="input-group-prepend"><label class="input-group-text" for="percent">%</label></div>
+                         <input type="number" class="form-control" id="percent" autocomplete="off" placeholder="Tips Percentage" value="15" data-component="percent">
+                    </div>
+
+                    <label class="mt-3" for="split">Split</label>
+                    <div class="input-group flex-nowrap">
+                        <input type="range" class="form-control-range mt-3" id="split" name="split" min="1" max="20" step="1" value="1" data-component="split">
+                        <div class="input-group-append"><label id="rangeValue" class="input-group-text" for="split">1</label></div>
+                    </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+<div id="results" class="row justify-content-md-center mt-3">
+    <div data-component="tip-calc" class="card col col-lg-6">
+        <div class="card-body">
+            <label class="mt-3" for="result">Result</label>
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend"><label class="input-group-text" for="result">$</label></div>
+                    <input type="text" class="form-control" id="result"  data-component="result">
+                    <div class="input-group-append hidden" id="eachLabel"><span class="input-group-text">each</span> </div>
+                 </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
