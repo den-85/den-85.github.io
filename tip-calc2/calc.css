@@ -1,0 +1,9 @@
+body {
+    background-color:#eee;
+}
+.hidden {
+    display: none;
+}
+.noPad {
+    padding: 0px;
+}
