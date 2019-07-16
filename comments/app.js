@@ -45,7 +45,7 @@ class App {
     this._list.add(comment)
 
     this._updateComments()
-      //this._fetchComments()
+      this._fetchComments()
   }
 
   _onCommentRemoved({detail: id}) {
