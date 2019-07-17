@@ -6,7 +6,7 @@ const commentTemplate = `
                             </div>
                             <div class="col">
                                 <div class="card-body">
-                                    <p class="card-text">{{name}}</p>
+                                    <p class="alert-link">{{name}}</p>
                                     <p class="card-text">{{text}}</p>
                                     <p class="card-text"><small class="text-muted">Added on {{time}}</small></p>
                                 </div>
@@ -16,7 +16,7 @@ const commentTemplate = `
                                  <button type="button" class="btn btn-link" id="del{{id}}">delete</button>
                             </div>
                         </div>
-                        <div data-child="{{id}}" class="ml-2 mr-1">
+                        <div data-child="{{id}}" class="ml-1 mr-1">
                         </div>
                        
                     </div>
@@ -39,16 +39,13 @@ class List extends Component {
     }
 
   _remove(id) {
-    this._trigger('CommentRemoved', id)
-      document.getElementById('comment-no').innerHTML = String(Number(document.getElementById('comment-no').innerHTML) - 1)
-    const childToRemove = this.$element.querySelector(`[data-key="${id}"]`)
-    this.$element.removeChild(childToRemove)
+        this._trigger('CommentRemoved', id)
+        document.getElementById('comment-no').innerHTML = String(Number(document.getElementById('comment-no').innerHTML) - 1)
+        const childToRemove = this.$element.querySelector(`[data-key="${id}"]`)
+        childToRemove.parentNode.removeChild(childToRemove)
   }
 
   _removeClickHandler(event) {
-    /*if (event.target.tagName !== 'BUTTON') {
-      return;
-    }*/
       if (!event.target.id.includes('del')) {
           return;
       }
@@ -58,6 +55,7 @@ class List extends Component {
   }
 
     static _replyClickHandler(event) {
+
         if (!event.target.id.includes('rpl')) {
             return;
         }
@@ -67,6 +65,7 @@ class List extends Component {
     }
 
   _render(comments) {
+
       document.getElementById('comment-no').innerHTML = String(Object.keys(comments).length)
       this._prepareCommentSection(Object.keys(comments).length)
       for (let key in comments) {
@@ -75,11 +74,13 @@ class List extends Component {
   }
 
     _renderSingle(comment) {
+
         document.getElementById('comment-no').innerHTML = Number(document.getElementById('comment-no').innerHTML) + 1
         this._insertComment(comment['parent'], Mustache.render(commentTemplate, comment))
     }
 
   _prepareCommentSection(elements){
+
     if(elements){
         this.$element.innerHTML = ''
         this.$element.classList.remove('alert')

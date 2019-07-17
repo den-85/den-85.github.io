@@ -22,21 +22,27 @@ class App {
   }
 
   _init() {
+
     this._fetchComments()
   }
 
   _onCommentSubmit(event) {
+      if(!event.detail){
+          alert('Please enter some text to post')
+          return
+      }
 
-      var currentDate = new Date();
-      var datetime = "" + currentDate.toDateString() + ' @ ' + currentDate.toTimeString()
-      let replyTo = this.$element.querySelector('[data-selector="reply-to"]')
+    let currentDate = new Date()
+    let datetime = currentDate.toDateString() + ' @ ' + currentDate.toTimeString()
+    let replyTo = this.$element.querySelector('[data-selector="reply-to"]')
+    let name = this.$element.querySelector('[data-selector="name"]')
 
     const comment = {
-        name: 'Anonymous',
+        name: name.value || 'Anonymous',
         text: event.detail,
         id: this._generateID(),
         time: datetime,
-        parent:Number(replyTo.value || -1),
+        parent: Number(replyTo.value || -1),
     }
 
     this._list.addSingle(comment)
@@ -45,41 +51,39 @@ class App {
   }
 
   _onCommentRemoved({detail: id}) {
-    console.log('before delete:')
-    console.log(this._comments)
-    this._comments = this._comments.filter(comment => comment.id !== id)
-/*
-    console.log('removing id=' + id)
-    console.log(this._comments)
 
-    for(let key in this._comments){
-      console.log('key=' +key+ ', parent key=' + this._comments[key].parent)
-      if ( this._comments[key].parent === id ) {
-        this._onCommentRemoved().bind(this)
-      }
-
-    }
-*/
-
+    //this._comments = this._comments.filter(comment => comment.id !== id)
+    this._deleteHierarchy(id)
     this._updateComments()
   }
 
+  _deleteHierarchy(id){
 
+      this._comments = this._comments.filter(comment => comment.id !== id)
+      for(let key in this._comments){
+          if(this._comments[key]) {
+              if (this._comments[key].parent === id) {
+                  this._deleteHierarchy(this._comments[key].id)
+              }
+          }
+      }
+  }
 
   _generateID() {
+
     const ids = this._comments.map(comment => comment.id)
     return ids.length ? Math.max(...ids) + 1 : 0
   }
 
     _fetchComments() {
+
     Repository.fetch(apiUrl)
       .then(data => {
-        this._comments = data.comments
 
+        this._comments = data.comments
         this._list.add(data.comments)
       })
   }
-
     _updateComments() {
 
     Repository.update(apiUrl, {
