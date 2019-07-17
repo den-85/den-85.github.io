@@ -11,7 +11,8 @@ const commentTemplate = `
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                 <button type="button" class="btn btn-link" id="btn{{id}}">&#x2715</button>
+                                <button type="button" class="btn btn-link" id="rpl{{id}}">reply</button>
+                                 <button type="button" class="btn btn-link" id="del{{id}}">delete</button>
                             </div>
                         </div>
                         <div data-child="{{id}}" class="ml-2 mr-1">
@@ -42,7 +43,7 @@ class List extends Component {
     if (event.target.tagName !== 'BUTTON') {
       return;
     }
-    const elementToDelete = this.$element.querySelector(`[data-key="${event.target.id.replace('btn','')}"]`)
+    const elementToDelete = this.$element.querySelector(`[data-key="${event.target.id.replace('del','')}"]`)
     this._remove(parseInt(elementToDelete.dataset.key))
   }
 
