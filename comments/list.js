@@ -6,6 +6,7 @@ const commentTemplate = `
                             </div>
                             <div class="col">
                                 <div class="card-body">
+                                    <p class="card-text">{{name}}</p>
                                     <p class="card-text">{{text}}</p>
                                     <p class="card-text"><small class="text-muted">Added on {{time}}</small></p>
                                 </div>
@@ -25,43 +26,65 @@ class List extends Component {
   constructor(options) {
     super(options)
 
-    this.$element.addEventListener('click', this._removeClickHandler.bind(this))
+        this.$element.addEventListener('click', this._removeClickHandler.bind(this))
+        this.$element.addEventListener('click', List._replyClickHandler.bind(this))
   }
 
   add(comments) {
     this._render(comments)
   }
 
+  addSingle(comment) {
+        this._renderSingle(comment)
+    }
+
   _remove(id) {
     this._trigger('CommentRemoved', id)
-
+      document.getElementById('comment-no').innerHTML = String(Number(document.getElementById('comment-no').innerHTML) - 1)
     const childToRemove = this.$element.querySelector(`[data-key="${id}"]`)
     this.$element.removeChild(childToRemove)
   }
 
   _removeClickHandler(event) {
-    if (event.target.tagName !== 'BUTTON') {
+    /*if (event.target.tagName !== 'BUTTON') {
       return;
-    }
+    }*/
+      if (!event.target.id.includes('del')) {
+          return;
+      }
+
     const elementToDelete = this.$element.querySelector(`[data-key="${event.target.id.replace('del','')}"]`)
     this._remove(parseInt(elementToDelete.dataset.key))
   }
 
+    static _replyClickHandler(event) {
+        if (!event.target.id.includes('rpl')) {
+            return;
+        }
+        document.getElementById('reply-to').value = event.target.id.replace('rpl','')
+        document.getElementById('comment').focus()
+
+    }
+
   _render(comments) {
-      document.getElementById('comment-no').innerHTML = Object.keys(comments).length + ' Comments:'
+      document.getElementById('comment-no').innerHTML = String(Object.keys(comments).length)
       this._prepareCommentSection(Object.keys(comments).length)
       for (let key in comments) {
-          console.log(comments[key])
           this._insertComment(comments[key]['parent'], Mustache.render(commentTemplate, comments[key]))
       }
   }
+
+    _renderSingle(comment) {
+        document.getElementById('comment-no').innerHTML = Number(document.getElementById('comment-no').innerHTML) + 1
+        this._insertComment(comment['parent'], Mustache.render(commentTemplate, comment))
+    }
+
   _prepareCommentSection(elements){
     if(elements){
         this.$element.innerHTML = ''
         this.$element.classList.remove('alert')
         this.$element.classList.remove('alert-danger')
     }else{
-        this.$element.innerHTML = 'no comments yet'
         this.$element.classList.add('alert')
         this.$element.classList.add('alert-danger')
     }
@@ -73,7 +96,7 @@ class List extends Component {
       if(elem){
           elem.insertAdjacentHTML('beforeend', commentElement)
       }else{
-          this.$element.insertAdjacentHTML('afterbegin', commentElement)
+          this.$element.insertAdjacentHTML('beforeend', commentElement)
       }
 
 

@@ -28,35 +28,46 @@ class App {
   _onCommentSubmit(event) {
 
       var currentDate = new Date();
-      var datetime = "" + currentDate.getDay() + "/"+currentDate.getMonth()
-          + "/" + currentDate.getFullYear() + " @ "
-          + currentDate.getHours() + ":"
-          + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+      var datetime = "" + currentDate.toDateString() + ' @ ' + currentDate.toTimeString()
       let replyTo = this.$element.querySelector('[data-selector="reply-to"]')
 
     const comment = {
-      text: event.detail,
-      id: this._generateID(),
-      time: datetime,
-      parent:replyTo.innerHTML,
+        name: 'Anonymous',
+        text: event.detail,
+        id: this._generateID(),
+        time: datetime,
+        parent:Number(replyTo.value || -1),
     }
 
-    this._comments.unshift(comment)
-    this._list.add(comment)
-
+    this._list.addSingle(comment)
+    this._comments.push(comment)
     this._updateComments()
-      this._fetchComments()
   }
 
   _onCommentRemoved({detail: id}) {
+    console.log('before delete:')
+    console.log(this._comments)
     this._comments = this._comments.filter(comment => comment.id !== id)
+/*
+    console.log('removing id=' + id)
+    console.log(this._comments)
+
+    for(let key in this._comments){
+      console.log('key=' +key+ ', parent key=' + this._comments[key].parent)
+      if ( this._comments[key].parent === id ) {
+        this._onCommentRemoved().bind(this)
+      }
+
+    }
+*/
 
     this._updateComments()
   }
 
+
+
   _generateID() {
     const ids = this._comments.map(comment => comment.id)
-
     return ids.length ? Math.max(...ids) + 1 : 0
   }
 

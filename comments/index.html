@@ -37,9 +37,8 @@
 
         <div data-component="app" class="col-lg-12 mt-3 mb-3">
             <div class="card-body">
-                <div id="comment-no" data-component="comment-no" class="mb-2"></div>
-                <div id="comment-list" class="alert alert-danger" role="alert" data-component="comment-list">no comments yet
-                </div>
+                <div class="mb-2"><span id="comment-no" data-component="comment-no"></span><span> Comments:</span></div>
+                <div id="comment-list" class="alert alert-danger" role="alert" data-component="comment-list"></div>
 
                 <form data-component="form">
                     <input type="number" style="display:none;" id="parent" value="-1">
@@ -48,7 +47,8 @@
                             Submit a Comment:
                         </label>
                         <div class="input-group">
-                            <div data-selector="reply-to"></div>
+                            <div data-selector="reply-to" id="reply-to"></div>
+                            <input type="text" data-selector="reply-to-id" id="reply-to-id" hidden>
                             <textarea class="form-control" id="comment"></textarea>
                         </div>
                         <button type="submit" class="btn btn-success mt-3">Submit Comment</button>
